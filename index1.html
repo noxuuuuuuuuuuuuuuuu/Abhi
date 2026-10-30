@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For My Sweet Shizuki 🌸 Warmest Hugs & Comfort</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for ultra-cute cozy typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Sacramento&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'milk-pink': '#ffe8ee',
+            'rose-soft': '#ffd1dc',
+            'blush-card': '#fff2f5',
+            'peach-warm': '#ffdfd3',
+            'cream-soft': '#fffbf0',
+            'lavender-haze': '#f0e6ff',
+            'berry-deep': '#8b3a58',
+            'sweet-pink': '#ff7597',
+            'pastel-gold': '#ffe39f',
+          },
+          fontFamily: {
+            fredoka: ['Fredoka', 'cursive', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
+            sacramento: ['Sacramento', 'cursive'],
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-10px) rotate(2deg)' },
+            },
+            pulseSlow: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.05)' },
+            },
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-3deg)' },
+              '50%': { transform: 'rotate(3deg)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
+          },
+          animation: {
+            float: 'float 4s ease-in-out infinite',
+            'float-delayed': 'float 5s ease-in-out 1.5s infinite',
+            pulseSlow: 'pulseSlow 3s ease-in-out infinite',
+            wiggle: 'wiggle 1.5s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #fff2f5 0%, #ffeedd 50%, #f4eaff 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* Floating background petaldrop & sparkle effect */
+    .bg-bubble {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatUp 16s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(110vh) scale(0.6) rotate(0deg);
+        opacity: 0.1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(-20vh) scale(1.1) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #ffe8ee;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ffb7c7;
+      border-radius: 999px;
+    }
+
+    .cloud-border {
+      box-shadow: 0 15px 35px -5px rgba(255, 142, 175, 0.18), 0 0 0 6px rgba(255, 255, 255, 0.8) inset;
+    }
+
+    .heart-shadow {
+      filter: drop-shadow(0 6px 12px rgba(255, 117, 151, 0.25));
+    }
+
+    .gentle-glass {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+    }
+
+    /* Pop effect on click */
+    .tap-pop:active {
+      transform: scale(0.92);
+      transition: transform 0.1s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-700 relative selection:bg-rose-soft selection:text-berry-deep">
+
+  <!-- Background decorative floating elements -->
+  <div id="bg-bubbles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+  <!-- Audio controller button fixed on top right -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+    <button id="audio-toggle-btn" class="tap-pop flex items-center gap-2 bg-white/90 hover:bg-white text-sweet-pink border-2 border-rose-soft px-4 py-2 rounded-full shadow-md text-xs sm:text-sm font-fredoka font-semibold transition-all">
+      <span id="audio-icon"><i data-lucide="music"></i></span>
+      <span id="audio-text">Cozy Ambience: Off</span>
+    </button>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-4 py-8 sm:py-12 flex flex-col items-center">
+
+    <!-- Hero Header -->
+    <header class="text-center w-full mb-10 pt-4">
+      <!-- Floating Cutie Badge -->
+      <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/90 shadow-sm border border-rose-soft/60 text-sweet-pink text-xs sm:text-sm font-fredoka font-semibold mb-4 animate-float">
+        <span class="text-base">🧸</span> Official Comfort & Pampering Zone for My Sweetest Girl
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-bold font-fredoka text-berry-deep tracking-tight mb-2 drop-shadow-sm">
+        Dearest <span class="text-sweet-pink relative inline-block">
+          Shizuki
+          <svg class="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 15" preserveAspectRatio="none">
+            <path d="M 0 10 Q 50 0 100 10" stroke="#ff7597" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </span> 🌸
+      </h1>
+      
+      <p class="font-sacramento text-2xl sm:text-4xl text-sweet-pink font-semibold my-2">
+        You are the most precious girl in the entire universe
+      </p>
+
+      <div class="max-w-xl mx-auto mt-4 px-4 py-3 rounded-2xl gentle-glass border border-white/80 shadow-sm text-sm sm:text-base text-gray-600 leading-relaxed">
+        I know your tummy hurts, your body feels super tired, and your energy might be low right now. 
+        So I built this safe cozy haven just for you! Wrap yourself in blankets, let me take care of you, and remember how totally adored you are. 💕
+      </div>
+
+      <!-- Cute Badges Row -->
+      <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-5 font-fredoka text-xs sm:text-sm">
+        <span class="px-3.5 py-1.5 rounded-full bg-rose-soft/60 text-berry-deep font-medium border border-rose-soft">
+          👑 Queen of Cozy
+        </span>
+        <span class="px-3.5 py-1.5 rounded-full bg-peach-warm/60 text-amber-900 font-medium border border-peach-warm">
+          🌸 Free From All Chores
+        </span>
+        <span class="px-3.5 py-1.5 rounded-full bg-lavender-haze/80 text-purple-900 font-medium border border-purple-200">
+          ✨ Deserves 100000x Gentle Kisses
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Section: Hug Dispenser Button -->
+    <section class="w-full mb-12 text-center">
+      <div class="gentle-glass rounded-3xl p-6 sm:p-8 cloud-border text-center max-w-lg mx-auto relative overflow-hidden">
+        <div class="text-xs uppercase tracking-widest text-sweet-pink font-bold font-fredoka mb-2">Emergency Warmth Dispenser</div>
+        <h2 class="text-2xl sm:text-3xl font-bold font-fredoka text-berry-deep mb-4">Need An Instant Tight Cuddle?</h2>
+        
+        <div class="relative my-4 flex justify-center">
+          <button id="hug-btn" class="tap-pop group relative flex flex-col items-center justify-center w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-tr from-sweet-pink to-rose-soft shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-4 border-white">
+            <span class="text-5xl sm:text-6xl group-hover:scale-125 transition-transform duration-300">🫂</span>
+            <span class="text-white font-fredoka font-bold text-sm sm:text-base mt-2 tracking-wide drop-shadow-sm">PRESS FOR HUG!</span>
+            <span class="absolute -top-1 -right-1 flex h-6 w-6">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-300 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-6 w-6 bg-white text-sweet-pink text-xs font-bold items-center justify-center">💖</span>
+            </span>
+          </button>
+        </div>
+
+        <p class="text-xs sm:text-sm text-gray-500 font-fredoka mt-3">
+          Virtual Cuddle Counter: 
+          <span id="hug-counter" class="text-sweet-pink font-extrabold text-base sm:text-lg">999,999</span> 
+          hugs sent to Shizuki!
+        </p>
+
+        <p id="cuddle-status-msg" class="h-6 mt-2 text-xs sm:text-sm font-semibold text-berry-deep transition-all duration-300">
+          Click the big pink button whenever you need love!
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 2: Cramp Relief & Virtual Pamper Kit -->
+    <section class="w-full mb-12">
+      <div class="text-center mb-6">
+        <span class="text-xs uppercase font-fredoka tracking-widest text-sweet-pink font-bold bg-white/70 px-3 py-1 rounded-full border border-pink-200">
+          Handcrafted For Shizuki's Period
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold font-fredoka text-berry-deep mt-2">
+          Shizuki's Virtual Cramp Relief Kit 🩹✨
+        </h2>
+        <p class="text-sm text-gray-600 max-w-md mx-auto mt-1">
+          Tap each care item below to activate warmth, pain relief, and comforting sweet surprises!
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+        
+        <!-- Item 1: Warm Water Bottle -->
+        <div onclick="activateCareItem('hot_water_bottle')" class="tap-pop cursor-pointer gentle-glass p-4 sm:p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-sweet-pink group">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-rose-soft/50 flex items-center justify-center text-3xl sm:text-4xl mb-3 group-hover:scale-110 transition-transform">
+            ♨️
+          </div>
+          <h3 class="font-fredoka font-bold text-berry-deep text-sm sm:text-base mb-1">Warm Water Bottle</h3>
+          <p class="text-xs text-gray-500">Soothing heat for your tummy aches</p>
+          <span class="mt-2 text-[10px] font-fredoka font-bold text-sweet-pink bg-pink-100 px-2 py-0.5 rounded-full">Tap for Heat</span>
+        </div>
+
+        <!-- Item 2: Fluffy Blanket -->
+        <div onclick="activateCareItem('fluffy_blanket')" class="tap-pop cursor-pointer gentle-glass p-4 sm:p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-sweet-pink group">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-peach-warm/50 flex items-center justify-center text-3xl sm:text-4xl mb-3 group-hover:scale-110 transition-transform">
+            🧸
+          </div>
+          <h3 class="font-fredoka font-bold text-berry-deep text-sm sm:text-base mb-1">Fluffy Cloud Blanket</h3>
+          <p class="text-xs text-gray-500">Tuck yourself in like a cozy burrito</p>
+          <span class="mt-2 text-[10px] font-fredoka font-bold text-sweet-pink bg-pink-100 px-2 py-0.5 rounded-full">Wrap Up</span>
+        </div>
+
+        <!-- Item 3: Hot Marshmallow Cocoa -->
+        <div onclick="activateCareItem('hot_cocoa')" class="tap-pop cursor-pointer gentle-glass p-4 sm:p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-sweet-pink group">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-amber-100 flex items-center justify-center text-3xl sm:text-4xl mb-3 group-hover:scale-110 transition-transform">
+            ☕
+          </div>
+          <h3 class="font-fredoka font-bold text-berry-deep text-sm sm:text-base mb-1">Steaming Cocoa</h3>
+          <p class="text-xs text-gray-500">Extra marshmallows, made with love</p>
+          <span class="mt-2 text-[10px] font-fredoka font-bold text-sweet-pink bg-pink-100 px-2 py-0.5 rounded-full">Take a Sip</span>
+        </div>
+
+        <!-- Item 4: Chocolate Stash -->
+        <div onclick="activateCareItem('dark_chocolate')" class="tap-pop cursor-pointer gentle-glass p-4 sm:p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-sweet-pink group">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-amber-200/50 flex items-center justify-center text-3xl sm:text-4xl mb-3 group-hover:scale-110 transition-transform">
+            🍫
+          </div>
+          <h3 class="font-fredoka font-bold text-berry-deep text-sm sm:text-base mb-1">Sweet Chocolates</h3>
+          <p class="text-xs text-gray-500">Endorphins & magnesium boost!</p>
+          <span class="mt-2 text-[10px] font-fredoka font-bold text-sweet-pink bg-pink-100 px-2 py-0.5 rounded-full">Munch Snack</span>
+        </div>
+
+        <!-- Item 5: Gentle Headpats -->
+        <div onclick="activateCareItem('gentle_headpats')" class="tap-pop cursor-pointer gentle-glass p-4 sm:p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-sweet-pink group">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-lavender-haze flex items-center justify-center text-3xl sm:text-4xl mb-3 group-hover:scale-110 transition-transform">
+            💆‍♀️
+          </div>
+          <h3 class="font-fredoka font-bold text-berry-deep text-sm sm:text-base mb-1">Gentle Headpats</h3>
+          <p class="text-xs text-gray-500">Fingers through hair till you nap</p>
+          <span class="mt-2 text-[10px] font-fredoka font-bold text-sweet-pink bg-pink-100 px-2 py-0.5 rounded-full">Receive Pats</span>
+        </div>
+
+        <!-- Item 6: Zero Chores Pass -->
+        <div onclick="activateCareItem('zero_chores')" class="tap-pop cursor-pointer gentle-glass p-4 sm:p-5 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-sweet-pink group">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-pink-100 flex items-center justify-center text-3xl sm:text-4xl mb-3 group-hover:scale-110 transition-transform">
+            🎟️
+          </div>
+          <h3 class="font-fredoka font-bold text-berry-deep text-sm sm:text-base mb-1">Zero Chores Ticket</h3>
+          <p class="text-xs text-gray-500">I do 100% of the work today!</p>
+          <span class="mt-2 text-[10px] font-fredoka font-bold text-sweet-pink bg-pink-100 px-2 py-0.5 rounded-full">Redeem Pass</span>
+        </div>
+
+      </div>
+
+      <!-- Interactive feedback alert box for relief items -->
+      <div id="care-box" class="mt-6 p-4 rounded-2xl bg-white/95 border-2 border-rose-soft shadow-md text-center transition-all duration-300 hidden">
+        <span id="care-box-icon" class="text-3xl block mb-1">🌸</span>
+        <h4 id="care-box-title" class="font-fredoka font-bold text-berry-deep text-base">You deserve the world!</h4>
+        <p id="care-box-desc" class="text-xs sm:text-sm text-gray-600 mt-1 max-w-md mx-auto"></p>
+      </div>
+    </section>
+
+    <!-- Section 3: Little Love Letters For Shizuki -->
+    <section class="w-full mb-12">
+      <div class="text-center mb-6">
+        <span class="text-xs uppercase font-fredoka tracking-widest text-sweet-pink font-bold bg-white/70 px-3 py-1 rounded-full border border-pink-200">
+          Open Whenever You Need A Smile
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold font-fredoka text-berry-deep mt-2">
+          Letters To My Favorite Girl 💌
+        </h2>
+      </div>
+
+      <div class="relative gentle-glass rounded-3xl p-6 sm:p-8 cloud-border">
+        <!-- Letter Navigation Indicator -->
+        <div class="flex items-center justify-between mb-4">
+          <span id="letter-index-badge" class="font-fredoka text-xs font-bold text-sweet-pink bg-rose-soft/50 px-3 py-1 rounded-full">
+            Love Note 1 of 5
+          </span>
+          <div class="flex gap-2">
+            <button onclick="prevLetter()" class="tap-pop p-2 rounded-full bg-white hover:bg-rose-50 text-sweet-pink border border-rose-soft shadow-sm">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button onclick="nextLetter()" class="tap-pop p-2 rounded-full bg-white hover:bg-rose-50 text-sweet-pink border border-rose-soft shadow-sm">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- The Letter Card -->
+        <div id="letter-card" class="bg-white/90 rounded-2xl p-6 border border-pink-100 shadow-sm relative overflow-hidden transition-all duration-300">
+          <div class="absolute top-2 right-3 text-4xl opacity-20 pointer-events-none">💌</div>
+          <h3 id="letter-title" class="text-xl sm:text-2xl font-fredoka font-bold text-sweet-pink mb-2">
+            My Forever Cutie Pie
+          </h3>
+          <p id="letter-body" class="text-sm sm:text-base text-gray-700 leading-relaxed font-nunito whitespace-pre-line">
+            Shizuki, even on the days when you feel exhausted, bloated, or moody, you are still the brightest light in my life. You don't have to be productive or cheerful today. Being alive and resting is more than enough. I love you through every season!
+          </p>
+          <div class="mt-4 pt-3 border-t border-pink-100 flex items-center justify-between text-xs text-berry-deep font-fredoka font-semibold">
+            <span>Forever & Always Yours ❤️</span>
+            <span id="letter-stamp">🌸 Stamp of Love</span>
+          </div>
+        </div>
+
+        <!-- Quick indicator dots -->
+        <div class="flex justify-center gap-2 mt-4" id="letter-dots">
+          <!-- Dots will be populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Daily Comfort Affirmation Dispenser -->
+    <section class="w-full mb-12 text-center">
+      <div class="gentle-glass rounded-3xl p-6 sm:p-8 cloud-border max-w-xl mx-auto">
+        <div class="text-3xl mb-2 animate-bounce">💖✨</div>
+        <h2 class="text-2xl sm:text-3xl font-bold font-fredoka text-berry-deep mb-2">
+          Cozy Affirmation Machine
+        </h2>
+        <p class="text-xs sm:text-sm text-gray-600 mb-6">
+          Press to receive an instant sweet reminder crafted for your heart today!
+        </p>
+
+        <div class="min-h-[90px] flex items-center justify-center p-4 bg-white/90 rounded-2xl border border-rose-soft/70 shadow-inner mb-6">
+          <p id="affirmation-text" class="text-sm sm:text-base font-semibold text-berry-deep italic">
+            "You are doing so wonderfully, Shizuki. Take a deep breath and let your body relax."
+          </p>
+        </div>
+
+        <button onclick="generateAffirmation()" class="tap-pop inline-flex items-center gap-2 bg-gradient-to-r from-sweet-pink to-rose-400 text-white font-fredoka font-bold px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-transform hover:scale-105">
+          <span>✨ Dispense Sweet Reminder</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 5: The "Shizuki's Rights for Today" Checklist -->
+    <section class="w-full mb-12">
+      <div class="gentle-glass rounded-3xl p-6 sm:p-8 cloud-border">
+        <h2 class="text-xl sm:text-2xl font-bold font-fredoka text-berry-deep mb-3 flex items-center gap-2">
+          <span>📋</span> Shizuki's Official Period Privileges (Non-Negotiable!)
+        </h2>
+        <p class="text-xs sm:text-sm text-gray-600 mb-4">You have full permission and royal authorization to do all of the following today:</p>
+        
+        <div class="space-y-3 font-fredoka text-xs sm:text-sm text-gray-700">
+          <label class="flex items-center gap-3 bg-white/70 p-3 rounded-xl border border-pink-100 hover:bg-white transition cursor-pointer">
+            <input type="checkbox" checked disabled class="accent-sweet-pink w-5 h-5 rounded">
+            <span>1. Sleep in, take 3 naps, and stay in pajamas 24/7 without guilt.</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white/70 p-3 rounded-xl border border-pink-100 hover:bg-white transition cursor-pointer">
+            <input type="checkbox" checked disabled class="accent-sweet-pink w-5 h-5 rounded">
+            <span>2. Request whatever delicious food or snack cravings you desire.</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white/70 p-3 rounded-xl border border-pink-100 hover:bg-white transition cursor-pointer">
+            <input type="checkbox" checked disabled class="accent-sweet-pink w-5 h-5 rounded">
+            <span>3. Complain about cramps as much as you want—I am here to listen and rub your back.</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white/70 p-3 rounded-xl border border-pink-100 hover:bg-white transition cursor-pointer">
+            <input type="checkbox" checked disabled class="accent-sweet-pink w-5 h-5 rounded">
+            <span>4. Watch cozy anime, dramas, or cute cat videos until your eyes feel sleepy.</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center w-full py-6 text-xs text-gray-500 font-fredoka">
+      <div class="flex items-center justify-center gap-1 text-sm text-sweet-pink mb-1">
+        <span>Made with</span>
+        <span class="animate-ping inline-block">💖</span>
+        <span>and infinite warmth for Shizuki</span>
+      </div>
+      <p>Take gentle care of yourself today, my sweetest love. You are so cherished!</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Sound Synthesizer via Web Audio API for cozy calm chime tones
+    let audioCtx = null;
+    let isAmbiencePlaying = false;
+    let ambienceInterval = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Play a gentle pentatonic chime note
+    function playChime(freq = 523.25, type = 'sine', duration = 1.2, volume = 0.15) {
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.log("Audio waiting for user gesture");
+      }
+    }
+
+    // Play cute comforting harp-like chord
+    function playChord() {
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      notes.forEach((n, idx) => {
+        setTimeout(() => playChime(n, 'sine', 1.4, 0.1), idx * 110);
+      });
+    }
+
+    // Cozy Ambient generator
+    const ambientFrequencies = [261.63, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+    function toggleAmbience() {
+      initAudio();
+      isAmbiencePlaying = !isAmbiencePlaying;
+      const btn = document.getElementById('audio-toggle-btn');
+      const text = document.getElementById('audio-text');
+
+      if (isAmbiencePlaying) {
+        text.innerText = "Cozy Ambience: On 🌸";
+        btn.classList.add('bg-pink-100', 'border-sweet-pink');
+        playChord();
+
+        ambienceInterval = setInterval(() => {
+          if (!isAmbiencePlaying) return;
+          const randomNote = ambientFrequencies[Math.floor(Math.random() * ambientFrequencies.length)];
+          playChime(randomNote, 'sine', 2.5, 0.04);
+        }, 2200);
+      } else {
+        text.innerText = "Cozy Ambience: Off";
+        btn.classList.remove('bg-pink-100', 'border-sweet-pink');
+        if (ambienceInterval) clearInterval(ambienceInterval);
+      }
+    }
+
+    document.getElementById('audio-toggle-btn').addEventListener('click', toggleAmbience);
+
+    // Dynamic floating bubbles background generator
+    const bgContainer = document.getElementById('bg-bubbles');
+    const bubbleIcons = ['🌸', '✨', '💖', '🧸', '☁️', '🍓', '🍰'];
+    for (let i = 0; i < 24; i++) {
+      const el = document.createElement('div');
+      el.className = 'bg-bubble';
+      el.style.left = `${Math.random() * 100}%`;
+      el.style.animationDelay = `${Math.random() * 14}s`;
+      el.style.animationDuration = `${12 + Math.random() * 12}s`;
+      el.style.fontSize = `${16 + Math.random() * 24}px`;
+      el.innerText = bubbleIcons[Math.floor(Math.random() * bubbleIcons.length)];
+      bgContainer.appendChild(el);
+    }
+
+    // Hug Counter logic
+    let hugs = 999999;
+    const hugCounterEl = document.getElementById('hug-counter');
+    const cuddleMsgEl = document.getElementById('cuddle-status-msg');
+    const hugBtn = document.getElementById('hug-btn');
+
+    const cuddleMessages = [
+      "Wrapping you in the warmest, fluffiest cuddle ever! 🤗",
+      "Soft kisses on your forehead. You are so loved! 🌸",
+      "Cramps be gone! Sending healing cuddles to Shizuki's tummy! 💕",
+      "Holding you close until you feel safe, cozy and relaxed ✨",
+      "You are the most precious girl, take all the rest you need! 🧸",
+      "Extra gentle squish! You are my world, Shizuki 🍓"
+    ];
+
+    hugBtn.addEventListener('click', (e) => {
+      initAudio();
+      hugs++;
+      hugCounterEl.innerText = hugs.toLocaleString();
+
+      // Audio feedback
+      playChime(659.25, 'triangle', 0.8, 0.2);
+      setTimeout(() => playChime(880, 'sine', 1.0, 0.15), 100);
+
+      // Random sweet message
+      const randomMsg = cuddleMessages[Math.floor(Math.random() * cuddleMessages.length)];
+      cuddleMsgEl.innerText = randomMsg;
+      cuddleMsgEl.style.opacity = '1';
+
+      // Confetti hearts blast
+      const rect = hugBtn.getBoundingClientRect();
+      const x = (rect.left + rect.width / 2) / window.innerWidth;
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+      confetti({
+        particleCount: 22,
+        spread: 60,
+        origin: { x, y },
+        colors: ['#ff7597', '#ffd1dc', '#ffdfd3', '#ffffff'],
+        shapes: ['circle'],
+        scalar: 1.1
+      });
+    });
+
+    // Care Kit Details
+    const careItems = {
+      hot_water_bottle: {
+        icon: '♨️',
+        title: 'Thermal Heat Pad Activated!',
+        desc: 'Placing a warm, snuggly hot water bottle directly over Shizuki\'s tummy to melt those painful cramps away gently.'
+      },
+      fluffy_blanket: {
+        icon: '🧸',
+        title: 'Ultra-Soft Cloud Cocoon!',
+        desc: 'You are now officially wrapped in 3 layers of warm pastel blankets. No cold drafts allowed near my girl!'
+      },
+      hot_cocoa: {
+        icon: '☕',
+        title: 'Hot Marshmallow Cocoa Served!',
+        desc: 'Warm, rich chocolate with five fluffy marshmallows floating on top. Sip slowly and feel the warmth in your chest.'
+      },
+      dark_chocolate: {
+        icon: '🍫',
+        title: 'Unlimited Sweet Chocolates!',
+        desc: 'Dark chocolate helps replenish magnesium and boosts serotonin! Enjoy guilt-free, sweet Shizuki.'
+      },
+      gentle_headpats: {
+        icon: '💆‍♀️',
+        title: 'Soft Headpats & Hair Strokes',
+        desc: 'Gently twirling and combing through your hair until your eyelids feel heavy and your worries drift away.'
+      },
+      zero_chores: {
+        icon: '🎟️',
+        title: 'Royal Pass: 0 Chores Permitted!',
+        desc: 'Dishes? Cleaning? Answering stressful messages? Canceled! Your only job today is to breathe, rest, and be cherished.'
+      }
+    };
+
+    function activateCareItem(key) {
+      initAudio();
+      playChord();
+      const data = careItems[key];
+      const box = document.getElementById('care-box');
+      const icon = document.getElementById('care-box-icon');
+      const title = document.getElementById('care-box-title');
+      const desc = document.getElementById('care-box-desc');
+
+      icon.innerText = data.icon;
+      title.innerText = data.title;
+      desc.innerText = data.desc;
+
+      box.classList.remove('hidden');
+      box.classList.add('animate-pulseSlow');
+
+      confetti({
+        particleCount: 15,
+        spread: 45,
+        origin: { y: 0.65 },
+        colors: ['#ff7597', '#ffd1dc', '#ffe39f']
+      });
+    }
+
+    // Love Notes Carousel
+    const letters = [
+      {
+        title: "My Forever Cutie Pie 🌸",
+        body: "Shizuki, even on the days when you feel exhausted, bloated, or moody, you are still the brightest light in my life. You don't have to be productive or cheerful today. Being alive and resting is more than enough. I love you through every season!"
+      },
+      {
+        title: "Why You're So Adorable 💕",
+        body: "Have you forgotten that you have the sweetest smile, the gentlest heart, and the cutest laughter? Period cramps might be bothering you right now, but nothing can dim how deeply beautiful you are to me."
+      },
+      {
+        title: "Permission To Be Grumpy 🎀",
+        body: "If you feel cranky, tell me! If you want to cry over a tiny movie scene, cry into my shirt. You are completely safe with me, and your feelings are always valid. I'm here for you 1000%."
+      },
+      {
+        title: "A Cozy Promise ☁️",
+        body: "I promise to always bring you sweet treats, fill your hot water bottle, rub your tummy, and remind you of your worth whenever pain tries to make you forget it. You are my home, Shizuki."
+      },
+      {
+        title: "Sleep Well, My Princess 🧸",
+        body: "Rest your sweet head, close those pretty eyes, and let your body heal. Tomorrow is another day, but today is for unconditional self-pampering. Sleep tight and dream of happy things."
+      }
+    ];
+
+    let currentLetter = 0;
+    const letterTitle = document.getElementById('letter-title');
+    const letterBody = document.getElementById('letter-body');
+    const letterBadge = document.getElementById('letter-index-badge');
+    const letterDots = document.getElementById('letter-dots');
+
+    function renderDots() {
+      letterDots.innerHTML = '';
+      letters.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${idx === currentLetter ? 'bg-sweet-pink w-6' : 'bg-pink-200'}`;
+        letterDots.appendChild(dot);
+      });
+    }
+
+    function showLetter(index) {
+      currentLetter = (index + letters.length) % letters.length;
+      const l = letters[currentLetter];
+      letterTitle.innerText = l.title;
+      letterBody.innerText = l.body;
+      letterBadge.innerText = `Love Note ${currentLetter + 1} of ${letters.length}`;
+      renderDots();
+      playChime(587.33, 'sine', 0.5, 0.08);
+    }
+
+    function nextLetter() {
+      showLetter(currentLetter + 1);
+    }
+
+    function prevLetter() {
+      showLetter(currentLetter - 1);
+    }
+
+    renderDots();
+
+    // Affirmation Generator
+    const sweetAffirmations = [
+      "Drink some warm water, my love. It helps relax your muscles! 💧",
+      "You are doing so wonderfully, Shizuki. Take a deep breath and let your body relax. 🌸",
+      "You are the most resilient, soft, and cherished girl in existence. ✨",
+      "Even bundled up in oversized sweaters looking sleepy, you're the prettiest person ever. 🧸",
+      "It's completely okay to do absolutely nothing today. Your body is working hard! 💕",
+      "Just a reminder: I am thinking of you right now and sending you a tight squeeze! 🫂",
+      "Warm heat on your tummy, calm thoughts in your mind, and endless love in your heart. 🍓",
+      "Shizuki, you make my life infinitely sweeter just by being in it. 🍬"
+    ];
+
+    function generateAffirmation() {
+      initAudio();
+      playChime(783.99, 'sine', 0.8, 0.12);
+      const random = sweetAffirmations[Math.floor(Math.random() * sweetAffirmations.length)];
+      const textEl = document.getElementById('affirmation-text');
+      
+      textEl.style.opacity = '0';
+      setTimeout(() => {
+        textEl.innerText = `"${random}"`;
+        textEl.style.opacity = '1';
+      }, 150);
+
+      confetti({
+        particleCount: 12,
+        spread: 35,
+        origin: { y: 0.8 },
+        colors: ['#ffd1dc', '#ff7597']
+      });
+    }
+  </script>
+</body>
+</html>
